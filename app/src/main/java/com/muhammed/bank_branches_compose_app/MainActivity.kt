@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.muhammed.bank_branches_compose_app.composables.BranchDetailScreen
 import com.muhammed.bank_branches_compose_app.composables.BranchListScreen
 import com.muhammed.bank_branches_compose_app.repository.BranchesRepository
 import com.muhammed.bank_branches_compose_app.ui.theme.BankBranchesComposeAppTheme
@@ -27,8 +28,8 @@ class MainActivity : ComponentActivity() {
             val branchesState by remember { mutableStateOf(BranchesRepository.branches) }
             BankBranchesComposeAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    BranchListScreen(
-                        branchesState,
+                    BranchDetailScreen(
+                        branchesState[9],
                         modifier = Modifier.padding(innerPadding)
 
                     )
