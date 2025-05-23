@@ -9,20 +9,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.muhammed.bank_branches_compose_app.composables.BranchListScreen
+import com.muhammed.bank_branches_compose_app.repository.BranchesRepository
 import com.muhammed.bank_branches_compose_app.ui.theme.BankBranchesComposeAppTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val branchesState by remember { mutableStateOf(BranchesRepository.branches) }
             BankBranchesComposeAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    BranchListScreen(
+                        branchesState,
                         modifier = Modifier.padding(innerPadding)
+
                     )
                 }
             }
