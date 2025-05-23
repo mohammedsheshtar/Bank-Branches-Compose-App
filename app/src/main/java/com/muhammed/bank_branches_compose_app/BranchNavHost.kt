@@ -1,0 +1,55 @@
+package com.muhammed.bank_branches_compose_app
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.muhammed.bank_branches_compose_app.composables.BranchDetailScreen
+import com.muhammed.bank_branches_compose_app.composables.BranchListScreen
+import com.muhammed.bank_branches_compose_app.repository.BranchesRepository
+
+enum class NavRoutesEnum(val value: String) {
+    NAV_ROUTE_LIST_BRANCHES_SCREEN("listBranches"),
+    NAV_ROUTE_BRANCH_DETAILS_SCREEN("branchDetails"),
+}
+
+@Composable
+fun BranchNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = NavRoutesEnum.NAV_ROUTE_LIST_BRANCHES_SCREEN.value
+) {
+    val branchesState by remember { mutableStateOf(BranchesRepository.branches) }
+
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        composable(NavRoutesEnum.NAV_ROUTE_LIST_BRANCHES_SCREEN.value) {
+            BranchListScreen(
+                branchesState,
+                modifier = modifier,
+                onClicked = { branch ->
+                    navController.navigate("${NavRoutesEnum.NAV_ROUTE_BRANCH_DETAILS_SCREEN.value}/${branch.id}")
+                }
+            )
+        }
+
+        composable("${NavRoutesEnum.NAV_ROUTE_BRANCH_DETAILS_SCREEN.value}/{branchId}") { backStackEntry ->
+            val branchId = backStackEntry.arguments?.getString("branchId")?.toIntOrNull()
+            val selectedBranch = branchesState.find { it.id == branchId }
+
+            selectedBranch?.let {
+                BranchDetailScreen(branch = it, modifier = modifier)
+            }
+        }
+    }
+
+}

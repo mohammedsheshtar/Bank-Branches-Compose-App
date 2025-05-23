@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,9 @@ import com.muhammed.bank_branches_compose_app.data.BranchType
 fun BranchDetailScreen(branch: Branch, modifier: Modifier) {
     val defaultImage = R.drawable.nbk_kw_6c7ba085
     val uriHandler = LocalUriHandler.current
+    val actualImage = branch.imageUri ?: defaultImage
+    val isDefaultImage = actualImage == defaultImage
+
 
     Card(
         modifier = modifier
@@ -41,13 +45,24 @@ fun BranchDetailScreen(branch: Branch, modifier: Modifier) {
         Column(modifier = Modifier.padding(16.dp)) {
 
             Image(
-                painter = painterResource(id = branch.imageUri ?: defaultImage),
+                painter = painterResource(id = actualImage),
                 contentDescription = branch.name,
+                contentScale = if (!isDefaultImage) ContentScale.Crop else ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(80.dp)
+                    .then(if (!isDefaultImage) Modifier.clip(RoundedCornerShape(12.dp)) else Modifier)
             )
+
+//            Image(
+//                painter = painterResource(id = branch.imageUri ?: defaultImage),
+//                contentDescription = branch.name,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(220.dp)
+//                    .clip(RoundedCornerShape(12.dp))
+//            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -85,6 +100,7 @@ fun BranchDetailScreen(branch: Branch, modifier: Modifier) {
             InfoRow("Address", branch.address, Icons.Default.LocationOn, tint = Color(0xFF1976D2))
             InfoRow("Phone", branch.phone, Icons.Default.Phone, tint = Color(0xFF00ACC1))
             InfoRow("Hours", branch.hours, Icons.Default.AccessTime, tint = Color(0xFFFF8F00))
+
 
             Spacer(modifier = Modifier.height(24.dp))
 

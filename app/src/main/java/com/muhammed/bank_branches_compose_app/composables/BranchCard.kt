@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,8 +32,12 @@ import com.muhammed.bank_branches_compose_app.ui.theme.Green
 import com.muhammed.bank_branches_compose_app.ui.theme.Orange
 
 @Composable
-fun BranchCard(branch: Branch, modifier: Modifier = Modifier) {
+fun BranchCard(branch: Branch,
+               modifier: Modifier = Modifier,
+               onClick: () -> Unit) {
     val defaultImage = R.drawable.nbk_kw_6c7ba085
+    val actualImage = branch.imageUri ?: defaultImage
+    val isDefaultImage = actualImage == defaultImage
 
     val typeColor = when (branch.type) {
         BranchType.MAIN -> Blue
@@ -41,12 +46,13 @@ fun BranchCard(branch: Branch, modifier: Modifier = Modifier) {
     }
 
     Card(
+        onClick = onClick,
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(120.dp), // Increased height
+            .height(120.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = DarkGrey),
+        colors = CardDefaults.cardColors(containerColor =  Color(0xFFE3F2FD)),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Row(
@@ -54,12 +60,14 @@ fun BranchCard(branch: Branch, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(12.dp)
         ) {
             Image(
-                painter = painterResource(id = branch.imageUri ?: defaultImage),
+                painter = painterResource(id = actualImage),
                 contentDescription = branch.name,
+                contentScale = if (!isDefaultImage) ContentScale.Crop else ContentScale.Fit,
                 modifier = Modifier
-                    .size(80.dp) // bigger image
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(80.dp)
+                    .then(if (!isDefaultImage) Modifier.clip(RoundedCornerShape(12.dp)) else Modifier)
             )
+
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -79,4 +87,5 @@ fun BranchCard(branch: Branch, modifier: Modifier = Modifier) {
         }
     }
 }
+
 

@@ -25,32 +25,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val branchesState by remember { mutableStateOf(BranchesRepository.branches) }
             BankBranchesComposeAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    BranchDetailScreen(
-                        branchesState[9],
-                        modifier = Modifier.padding(innerPadding)
-
-                    )
+                    BranchNavHost(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BankBranchesComposeAppTheme {
-        Greeting("Android")
     }
 }

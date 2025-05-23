@@ -8,10 +8,14 @@ import androidx.compose.ui.Modifier
 import com.muhammed.bank_branches_compose_app.data.Branch
 
 @Composable
-fun BranchListScreen(branches: List<Branch>, modifier: Modifier = Modifier) {
+fun BranchListScreen(branches: List<Branch>,
+                     modifier: Modifier = Modifier,
+                     onClicked: (Branch) -> Unit) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(branches) { branch ->
-            BranchCard(branch = branch)
+            BranchCard(
+                branch = branch,
+                onClick = { onClicked(branch) })
         }
     }
 }
