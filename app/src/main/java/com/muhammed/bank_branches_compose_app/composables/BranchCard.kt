@@ -32,7 +32,9 @@ import com.muhammed.bank_branches_compose_app.data.BranchType
 import com.muhammed.bank_branches_compose_app.ui.theme.Blue
 import com.muhammed.bank_branches_compose_app.ui.theme.DarkGrey
 import com.muhammed.bank_branches_compose_app.ui.theme.Green
+import com.muhammed.bank_branches_compose_app.ui.theme.LightYellow
 import com.muhammed.bank_branches_compose_app.ui.theme.Orange
+import com.muhammed.bank_branches_compose_app.ui.theme.TangyYellow
 
 @Composable
 fun BranchCard(branch: Branch,
@@ -56,7 +58,7 @@ fun BranchCard(branch: Branch,
             .fillMaxWidth()
             .height(120.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = if (isFavorite) Color(0xFFFFF9C4) else DarkGrey),
+        colors = CardDefaults.cardColors(containerColor = if (isFavorite) LightYellow else DarkGrey),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Row(
@@ -92,7 +94,7 @@ fun BranchCard(branch: Branch,
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Favorite",
-                        tint = Color(0xFFFF8F00),
+                        tint = TangyYellow,
                         modifier = Modifier.size(18.dp)
                     )
                 }
