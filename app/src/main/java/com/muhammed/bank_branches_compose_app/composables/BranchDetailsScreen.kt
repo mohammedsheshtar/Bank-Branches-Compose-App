@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +28,10 @@ import com.muhammed.bank_branches_compose_app.data.Branch
 import com.muhammed.bank_branches_compose_app.data.BranchType
 
 @Composable
-fun BranchDetailScreen(branch: Branch, modifier: Modifier) {
+fun BranchDetailScreen(branch: Branch,
+                       modifier: Modifier,
+                       isFavorite: Boolean,
+                       onToggleFavorite: () -> Unit) {
     val defaultImage = R.drawable.nbk_kw_6c7ba085
     val uriHandler = LocalUriHandler.current
     val actualImage = branch.imageUri ?: defaultImage
@@ -117,6 +121,27 @@ fun BranchDetailScreen(branch: Branch, modifier: Modifier) {
                 Spacer(Modifier.width(8.dp))
                 Text("Open in Google Maps")
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onToggleFavorite,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isFavorite) Color.Yellow else Color(0xFF1976D2),
+                    contentColor = if (isFavorite) Color.Black else Color.White
+                ),
+                shape = RoundedCornerShape(50),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "Favorite",
+                    tint = if (isFavorite) Color.Black else Color.White
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(if (isFavorite) "Unfavorite" else "Set as Favorite")
+            }
+
         }
     }
 }

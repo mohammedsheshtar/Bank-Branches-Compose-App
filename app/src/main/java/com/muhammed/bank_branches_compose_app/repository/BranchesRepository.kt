@@ -106,6 +106,5 @@ object BranchesRepository {
                 location = "https://maps.app.goo.gl/mjw4QzxpgJHL7Bmw9",
                 imageUri = R.drawable.jahra
             )
-
         )
     }

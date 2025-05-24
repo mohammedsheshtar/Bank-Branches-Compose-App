@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,7 +26,8 @@ fun BranchNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = NavRoutesEnum.NAV_ROUTE_LIST_BRANCHES_SCREEN.value
 ) {
-    val branchesState by remember { mutableStateOf(BranchesRepository.branches) }
+    val branchesState by rememberSaveable { mutableStateOf(BranchesRepository.branches) }
+    var favoriteBranchIds by rememberSaveable { mutableStateOf(setOf<Int>()) }
 
     NavHost(
         modifier = modifier,
@@ -36,6 +38,7 @@ fun BranchNavHost(
             BranchListScreen(
                 branchesState,
                 modifier = modifier,
+                favoriteBranchIds = favoriteBranchIds,
                 onClicked = { branch ->
                     navController.navigate("${NavRoutesEnum.NAV_ROUTE_BRANCH_DETAILS_SCREEN.value}/${branch.id}")
                 }
@@ -47,9 +50,19 @@ fun BranchNavHost(
             val selectedBranch = branchesState.find { it.id == branchId }
 
             selectedBranch?.let {
-                BranchDetailScreen(branch = it, modifier = modifier)
+                BranchDetailScreen(
+                    branch = it,
+                    modifier = modifier,
+                    isFavorite = it.id in favoriteBranchIds,
+                    onToggleFavorite = {
+                        favoriteBranchIds = if (it.id in favoriteBranchIds) {
+                            favoriteBranchIds - it.id
+                        } else {
+                            favoriteBranchIds + it.id
+                        }
+                    }
+                )
             }
         }
     }
-
 }

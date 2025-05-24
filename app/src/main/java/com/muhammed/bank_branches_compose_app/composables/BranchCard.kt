@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +37,7 @@ import com.muhammed.bank_branches_compose_app.ui.theme.Orange
 @Composable
 fun BranchCard(branch: Branch,
                modifier: Modifier = Modifier,
+               isFavorite: Boolean,
                onClick: () -> Unit) {
     val defaultImage = R.drawable.nbk_kw_6c7ba085
     val actualImage = branch.imageUri ?: defaultImage
@@ -52,7 +56,7 @@ fun BranchCard(branch: Branch,
             .fillMaxWidth()
             .height(120.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor =  Color(0xFFE3F2FD)),
+        colors = CardDefaults.cardColors(containerColor = if (isFavorite) Color(0xFFFFF9C4) else DarkGrey),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Row(
@@ -83,6 +87,15 @@ fun BranchCard(branch: Branch,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
                 )
+                if (isFavorite) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Favorite",
+                        tint = Color(0xFFFF8F00),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
             }
         }
     }

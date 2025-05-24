@@ -10,11 +10,13 @@ import com.muhammed.bank_branches_compose_app.data.Branch
 @Composable
 fun BranchListScreen(branches: List<Branch>,
                      modifier: Modifier = Modifier,
+                     favoriteBranchIds: Set<Int>,
                      onClicked: (Branch) -> Unit) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(branches) { branch ->
             BranchCard(
                 branch = branch,
+                isFavorite = branch.id in favoriteBranchIds,
                 onClick = { onClicked(branch) })
         }
     }
