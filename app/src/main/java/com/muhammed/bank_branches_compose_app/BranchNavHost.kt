@@ -46,7 +46,7 @@ fun BranchNavHost(
         }
 
         composable("${NavRoutesEnum.NAV_ROUTE_BRANCH_DETAILS_SCREEN.value}/{branchId}") { backStackEntry ->
-            val branchId = backStackEntry.arguments?.getString("branchId")?.toIntOrNull()
+            val branchId = backStackEntry.arguments?.getString("branchId")?.toIntOrNull() ?: "branch not found"
             val selectedBranch = branchesState.find { it.id == branchId }
 
             selectedBranch?.let {

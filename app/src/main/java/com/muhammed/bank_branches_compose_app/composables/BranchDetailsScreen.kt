@@ -26,12 +26,19 @@ import androidx.compose.ui.unit.sp
 import com.muhammed.bank_branches_compose_app.R
 import com.muhammed.bank_branches_compose_app.data.Branch
 import com.muhammed.bank_branches_compose_app.data.BranchType
+import com.muhammed.bank_branches_compose_app.ui.theme.Blue
+import com.muhammed.bank_branches_compose_app.ui.theme.Green
+import com.muhammed.bank_branches_compose_app.ui.theme.LightBlue
+import com.muhammed.bank_branches_compose_app.ui.theme.NBKBlue
+import com.muhammed.bank_branches_compose_app.ui.theme.Orange
+import com.muhammed.bank_branches_compose_app.ui.theme.TangyYellow
 
 @Composable
 fun BranchDetailScreen(branch: Branch,
                        modifier: Modifier,
                        isFavorite: Boolean,
                        onToggleFavorite: () -> Unit) {
+
     val defaultImage = R.drawable.nbk_kw_6c7ba085
     val uriHandler = LocalUriHandler.current
     val actualImage = branch.imageUri ?: defaultImage
@@ -59,15 +66,6 @@ fun BranchDetailScreen(branch: Branch,
                     .then(if (!isDefaultImage) Modifier.clip(RoundedCornerShape(12.dp)) else Modifier)
             )
 
-//            Image(
-//                painter = painterResource(id = branch.imageUri ?: defaultImage),
-//                contentDescription = branch.name,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(220.dp)
-//                    .clip(RoundedCornerShape(12.dp))
-//            )
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
@@ -88,9 +86,9 @@ fun BranchDetailScreen(branch: Branch,
                     .align(Alignment.CenterHorizontally)
                     .background(
                         color = when (branch.type) {
-                            BranchType.MAIN -> Color(0xFF1976D2)
-                            BranchType.ATM -> Color(0xFF388E3C)
-                            BranchType.SERVICE_CENTER -> Color(0xFFF57C00)
+                            BranchType.MAIN -> Blue
+                            BranchType.ATM -> Green
+                            BranchType.SERVICE_CENTER -> Orange
                         },
                         shape = RoundedCornerShape(50)
                     )
@@ -101,9 +99,9 @@ fun BranchDetailScreen(branch: Branch,
             Divider()
 
             // 📋 Info Rows
-            InfoRow("Address", branch.address, Icons.Default.LocationOn, tint = Color(0xFF1976D2))
-            InfoRow("Phone", branch.phone, Icons.Default.Phone, tint = Color(0xFF00ACC1))
-            InfoRow("Hours", branch.hours, Icons.Default.AccessTime, tint = Color(0xFFFF8F00))
+            InfoRow("Address", branch.address, Icons.Default.LocationOn, tint = Blue)
+            InfoRow("Phone", branch.phone, Icons.Default.Phone, tint = LightBlue)
+            InfoRow("Hours", branch.hours, Icons.Default.AccessTime, tint = TangyYellow)
 
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -113,7 +111,7 @@ fun BranchDetailScreen(branch: Branch,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF1976D2),
+                    containerColor = NBKBlue,
                     contentColor = Color.White
                 )
             ) {
@@ -127,7 +125,7 @@ fun BranchDetailScreen(branch: Branch,
             Button(
                 onClick = onToggleFavorite,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isFavorite) Color.Yellow else Color(0xFF1976D2),
+                    containerColor = if (isFavorite) Color.Yellow else NBKBlue,
                     contentColor = if (isFavorite) Color.Black else Color.White
                 ),
                 shape = RoundedCornerShape(50),
